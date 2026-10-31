@@ -333,9 +333,13 @@ html.print-mode #cover { display: none !important; }
 .res .addr { font-weight: 600; font-size: 1.15em; line-height: 1.35; color: #2a2238; font-variant-numeric: lining-nums; }
 .res .rule { background: linear-gradient(90deg, transparent, #b58733, transparent); }
 .contacts { display: grid; grid-template-columns: 1fr; gap: 16px; width: 100%; }
-@media (min-width: 640px) { .contacts { grid-template-columns: 1fr 1fr 1fr; gap: 14px; } .contacts .num { flex-direction: column; } .contacts .num .copy { margin: 4px 0 0 0; } .contact a { font-size: 1em; } }
+@media (min-width: 560px) { .contacts { grid-template-columns: 1fr 1fr; gap: 22px 18px; } .contact a { font-size: 1.05em; } }
 .contact { display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 0; }
-.contact .who { font-weight: 700; font-size: 1.08em; white-space: nowrap; }
+.contact .who { font-weight: 700; font-size: 1.08em; line-height: 1.25; text-wrap: balance; overflow-wrap: anywhere; }
+.contact .mini { display: block; width: 46px; height: 1px; margin: 2px 0 3px; background: linear-gradient(90deg, transparent, #c79a4a, transparent); }
+.res .compl { letter-spacing: .2em; text-align: center; line-height: 1.7; text-wrap: balance; }
+.res .call-note { font-style: italic; font-size: .92em; color: #6b5a4a; margin-top: 2px; max-width: 26ch; text-wrap: balance; line-height: 1.35; }
+.contact .num + .num { margin-top: 2px; }
 .contact .num { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; }
 .contact .num .copy { margin-left: 10px; padding: 4px 10px; }
 .no-fgap .contact > * + * { margin-top: 4px; }
@@ -481,8 +485,28 @@ html.print-mode .panel[data-sc="baraat"] .ratio { padding-top: 60% !important; }
 .sig.sig-pre .sig-dot { opacity: 0; }
 .sig.sig-writing .quill { opacity: 1; }
 .no-fgap #credit > * + * { margin-top: 4px; }
-@media print { #credit { padding: 4mm 0; } .sig .quill { display: none; } }
+@media print { #thanks { break-after: auto; page-break-after: auto; } #credit { height: 24mm; margin-top: -26mm; padding: 0; justify-content: center; break-inside: avoid; } #credit .sig { width: 52mm; } #credit .cr-rule { margin-bottom: 3mm; } .sig .quill { display: none; } }
 @media (prefers-reduced-motion: reduce) { .sig .quill { display: none; } }
+
+/* Kohinoor Bangles: jewellery-style brand mark */
+.brand { display: flex; flex-direction: column; align-items: center; margin-top: 2px; }
+.brand .gem { width: 46px; height: 38px; display: block; filter: drop-shadow(0 3px 5px rgba(122,84,24,.25)); }
+.brand .gm-glint { transform-box: fill-box; transform-origin: 50% 50%; animation: gmglint 2.6s ease-in-out infinite; }
+.brand .gm-glint.g2 { animation-delay: -1.3s; }
+@keyframes gmglint { 0%, 100% { transform: scale(.2) rotate(0deg); opacity: 0; } 45% { transform: scale(1) rotate(45deg); opacity: 1; } 60% { opacity: 1; } }
+.brand-k { font-family: var(--script); font-weight: 400; font-size: 2.6rem; font-size: clamp(2.6rem, 12vw, 3.5rem); line-height: 1.05; padding: 0 .25em; margin-top: 2px; color: #9a6a1e; }
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .brand-k { background: linear-gradient(100deg, #7a5418 0%, #b8862e 22%, #f3d58e 38%, #b8862e 52%, #7a5418 70%, #c9963d 86%, #7a5418 100%); background-size: 220% 100%;
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; animation: foil 6s ease-in-out infinite; }
+}
+@keyframes foil { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+.brand-b { display: flex; align-items: center; gap: 12px; margin-top: 4px; font-family: var(--caps); font-weight: 700; text-transform: uppercase; letter-spacing: .42em; font-size: 1.05rem; font-size: 1rem; font-size: clamp(1rem, 4.8vw, 1.25rem); color: #7a5418; }
+.brand-b span { margin-right: -.42em; }
+.brand-b .bng { width: 34px; height: 20px; flex: none; }
+.no-fgap .brand-b > * + * { margin-left: 12px; }
+@media (prefers-reduced-motion: reduce) { .brand .gm-glint, .brand-k { animation: none !important; } }
+@media print { .brand .gm-glint { opacity: 1; transform: none; animation: none; } .brand-k { animation: none; background: none !important; -webkit-text-fill-color: #9a6a1e; color: #9a6a1e; } }
+html.print-mode .brand-k { background: none !important; -webkit-text-fill-color: #9a6a1e; color: #9a6a1e; animation: none; }
 
 /* #Royal badge */
 #royal { position: fixed; z-index: 30; right: calc(14px + env(safe-area-inset-right, 0px)); bottom: calc(14px + env(safe-area-inset-bottom, 0px)); display: flex; align-items: center; gap: 8px; padding: 7px 14px 7px 11px; border: 1px solid var(--gold); border-radius: 999px; background: rgba(20,18,38,.85); }
@@ -511,7 +535,8 @@ html.print-mode .panel[data-sc="baraat"] .ratio { padding-top: 60% !important; }
   .event-page .event { width: 100%; }
   .event-page .event.tall { width: 72%; }
   .families, .venues { grid-template-columns: 1fr 1fr; }
-  .contacts { grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+  .contacts { grid-template-columns: 1fr 1fr; gap: 10px 12px; }
+  .call-note { display: none; }
   .contact .who { font-size: .95em; }
   .contact a { font-size: 1em; }
   .res-wrap { padding-bottom: 0; }
@@ -796,15 +821,16 @@ html.print-mode .panel[data-sc="baraat"] .ratio { padding-top: 60% !important; }
         <p class="caps" data-anim="rise" data-delay="1.55">Residence</p>
         <p class="addr" data-anim="rise" data-delay="1.7">B-10, Kashmir Tenament,<br>Near Sukhramdas Darbar, Bunglow&nbsp;Area,<br>Kubernagar, Ahmedabad,<br>Gujarat&nbsp;–&nbsp;382340</p>
         <span class="rule" data-anim="grow" data-delay="1.9" style="margin-block:6px"></span>
-        <p class="caps" data-anim="rise" data-delay="2.0">For any enquiries</p>
+        <p class="caps compl" data-anim="rise" data-delay="2.0">With Best Compliments From</p>
         <div class="contacts" data-anim="rise" data-delay="2.15">
-          <div class="contact"><span class="who">Anilkumar Pahuja</span><span class="num"><a href="tel:+917016025932">+91 70160 25932</a><button class="copy" type="button" id="copy-anil-1" data-num="+91 70160 25932">Copy</button></span><span class="num"><a href="tel:+919376150300">+91 93761 50300</a><button class="copy" type="button" id="copy-anil-2" data-num="+91 93761 50300">Copy</button></span></div>
-          <div class="contact"><span class="who">Sunilkumar Pahuja</span><span class="num"><a href="tel:+918905788318">+91 89057 88318</a><button class="copy" type="button" id="copy-sunil" data-num="+91 89057 88318">Copy</button></span></div>
-          <div class="contact"><span class="who">Deepesh Pahuja</span><span class="num"><a href="tel:+919377462519">+91 93774 62519</a><button class="copy" type="button" id="copy-deepesh" data-num="+91 93774 62519">Copy</button></span></div>
+          <div class="contact"><span class="who">Anilkumar Pahuja</span><span class="mini" aria-hidden="true"></span><span class="num"><a href="tel:+917016025932">+91 70160 25932</a><button class="copy" type="button" id="copy-anil-1" data-num="+91 70160 25932">Copy</button></span><span class="num"><a href="tel:+919376150300">+91 93761 50300</a><button class="copy" type="button" id="copy-anil-2" data-num="+91 93761 50300">Copy</button></span></div>
+          <div class="contact"><span class="who">Deepesh Anilkumar Pahuja</span><span class="mini" aria-hidden="true"></span><span class="num"><a href="tel:+919377462519">+91 93774 62519</a><button class="copy" type="button" id="copy-deepesh" data-num="+91 93774 62519">Copy</button></span></div>
+          <div class="contact"><span class="who">Sunilkumar Pahuja</span><span class="mini" aria-hidden="true"></span><span class="num"><a href="tel:+918905788318">+91 89057 88318</a><button class="copy" type="button" id="copy-sunil" data-num="+91 89057 88318">Copy</button></span></div>
+          <div class="contact"><span class="who">Siddharth Sunilkumar Pahuja</span><span class="mini" aria-hidden="true"></span></div>
         </div>
         <span class="rule" data-anim="grow" data-delay="2.3" style="margin-block:6px"></span>
         <p class="caps" data-anim="rise" data-delay="2.4">Firm</p>
-        <p class="firm" data-anim="track" data-delay="2.5">Kohinoor Bangles</p>
+        <div class="brand" data-anim="pop" data-delay="2.5"><svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="bnG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7a5418"/><stop offset=".5" stop-color="#e2b65e"/><stop offset="1" stop-color="#8c6420"/></linearGradient></defs></svg><svg class="gem" viewBox="0 0 64 52" aria-hidden="true"><defs><linearGradient id="gmA" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".45" stop-color="#e7eef7"/><stop offset="1" stop-color="#b9c6d8"/></linearGradient><linearGradient id="gmB" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#cdd8e6"/></linearGradient><linearGradient id="gmG" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#9a6a1e"/><stop offset=".5" stop-color="#e9c983"/><stop offset="1" stop-color="#9a6a1e"/></linearGradient></defs><path d="M14 6 H50 L60 18 L32 48 L4 18 Z" fill="url(#gmA)" stroke="url(#gmG)" stroke-width="1.6" stroke-linejoin="round"/><path d="M4 18 H60 M14 6 L22 18 L32 6 L42 18 L50 6 M22 18 L32 48 L42 18" fill="none" stroke="#9fb0c6" stroke-width=".9" stroke-linejoin="round"/><path d="M14 6 L22 18 L4 18 Z M32 6 L42 18 L22 18 Z" fill="url(#gmB)" opacity=".9"/><path d="M22 18 L32 48 L4 18 Z" fill="#dfe7f1" opacity=".55"/><path class="gm-glint" d="M47 0 L48.6 5.4 L54 7 L48.6 8.6 L47 14 L45.4 8.6 L40 7 L45.4 5.4 Z" fill="#fff"/><path class="gm-glint g2" d="M12 24 L13 27 L16 28 L13 29 L12 32 L11 29 L8 28 L11 27 Z" fill="#fff"/></svg><p class="brand-k">Kohinoor</p><p class="brand-b"><svg class="bng" viewBox="0 0 34 20" aria-hidden="true"><ellipse cx="12" cy="10" rx="9" ry="8" fill="none" stroke="url(#bnG)" stroke-width="2.6"/><ellipse cx="22" cy="10" rx="9" ry="8" fill="none" stroke="url(#bnG)" stroke-width="2.6"/><circle cx="12" cy="2" r="1.4" fill="#c4566f"/><circle cx="22" cy="18" r="1.4" fill="#c4566f"/></svg><span>Bangles</span><svg class="bng" viewBox="0 0 34 20" aria-hidden="true"><ellipse cx="12" cy="10" rx="9" ry="8" fill="none" stroke="url(#bnG)" stroke-width="2.6"/><ellipse cx="22" cy="10" rx="9" ry="8" fill="none" stroke="url(#bnG)" stroke-width="2.6"/><circle cx="12" cy="2" r="1.4" fill="#c4566f"/><circle cx="22" cy="18" r="1.4" fill="#c4566f"/></svg></p></div>
         <p class="firm-loc" data-anim="rise" data-delay="2.7">Manekchowk, Ahmedabad</p>
       </div>
       <div class="pocket" aria-hidden="true"><svg viewBox="0 0 400 200" preserveAspectRatio="none"><path d="M0 0 L200 110 L400 0 L400 196 Q400 200 396 200 L4 200 Q0 200 0 196 Z" fill="#332c4e" stroke="#d9a441" stroke-width="1.2"/><circle cx="200" cy="104" r="20" fill="#c4566f"/><path d="M200 114 C192 108 188 104 188 99 C188 95 191 93 194 93 C197 93 199 95 200 97 C201 95 203 93 206 93 C209 93 212 95 212 99 C212 104 208 108 200 114 Z" fill="#f3e6cc"/></svg></div>
